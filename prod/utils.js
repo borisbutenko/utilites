@@ -97,6 +97,24 @@
 'use strict';
 
 /**
+ * Супер-производительный перебор
+ * @param array[]
+ * @param callback()
+ * @return callback(item, index)
+ */
+
+(function (w) {
+
+    w.loop = function (array, callback) {
+        var i = array.length;
+        while (i -= 1) {
+            callback(array[i], i);
+        }
+    };
+})(window);
+'use strict';
+
+/**
  * Удаляем обработчик на элемент
  * @param eventName str event name
  * @param handler callback
@@ -160,24 +178,7 @@ window.whenReady = function () {
 'use strict';
 
 whenReady(function () {
-    var body = document.body,
-        button = document.getElementById('button'),
-        button3 = document.getElementById('button3');
-
-    button.on('click', click);
-
-    button.click();
-
-    button.off('click', click);
-
-    button.click();
-
-    body.delegate('click', '#button3', click);
-
-    button3.click();
-
-    function click(e) {
-        console.log(arguments);
-        log('click');
-    }
+    loop(new Array(10000), function (item, i) {
+        console.log(item, i);
+    });
 });
